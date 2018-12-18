@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+  <head  th:with="title='favorites'">
+  <style type="text/css">
+  .str{
+  
+  }
+  </style>
+  <!-- js获取后台controller中model的值   th:inline -->
+  <script type="text/javascript" th:inline="javascript">
+  	function getCollect(){
+  	    var message = [[${user.name}]];
+  	 	alert(message);
+  	}
+  </script>
+  
+  
+  </head>
+  <body>
+     dffffhhh
+     <!-- 引用模板
+     	th:insert:保留自己的主标签，保留th:fragment的主标签。
+		th:replace:不要自己的主标签，保留th:fragment的主标签
+		可以在引用时传入参数，模板中可以使用此参数
+	 -->
+     <div th:insert="fragments/header :: ccc(aa=1)"></div>
+     
+     <!-- 获取repository中得到的值 -->
+     获取repository中得到的值 <span th:text="${c}"></span>
+     获取repository中得到的值2 <span th:text="${user1.age}"></span>
+   获取repository中新增的user对象id <span th:text="${user2.id}"></span>  
+   获取repository中修改的user对象名称 <span th:text="${user3.name}"></span>  
+     <!-- th:text 标签赋值 -->
+      <div style="border: 1px solid blue" th:text="${user.name}">user name</div>
+      <div style="border: 1px solid blue" th:text="${size}">user name</div>
+       <div style="border: 1px solid blue" th:text="${type}">user name</div>
+       
+       <!-- 选择(星号)表达式  作用域在object定义的标签内-->
+       <div style="border: 1px solid yellow" th:object="${user}">
+       	obj:<span th:text="*{name}"></span>
+       </div>
+       
+       <!-- th:utext  html的内容替换 前台写的引号无法识别，必须在后台输出或者在properties中写-->
+       <div th:utext="${str}" >conten</div>
+       
+       <!-- th:with  进行临时赋值 -->
+       <div style="border: 1px solid yellow" th:with="aa=打撒奥所"><span th:text="${aa}"></span></div>
+       
+       <!-- 变量赋值 -->
+       <input th:value="${user.name}" />
+       
+       <!-- 设置样式 -->
+       <div th:style="'display:' + @{(${size}==221 ? 'none' : '')} ">和规范化股份</div>
+       
+       <!-- 设置点击事件 -->
+       <input type="button" th:onclick="'getCollect()'" th:value="${user.name}">
+       
+       <!-- 循环 -->
+       <div th:each="obj,listStat : ${list}" style="border: 1px solid green;margin-top: 1px" th:text="${obj}"></div>
+       
+       <!-- if 判断 -->
+       <a href='#' th:if="${size == 22}" th:text="${user.name +'fff'}"></a>
+       
+       <!-- URL地址 -->
+       <a   th:href="@{/hello/tr}" th:text="${user.name +'fff'}"></a>
+       
+       <!-- case 以及 switch  begin-->
+        <div th:switch="${size}">
+	        <p th:case="22">
+	            <input id="enable" name="enable" type="radio"
+	                   class="ace" value="1" checked="checked" />
+	            <span class="lbl">启用</span>
+	            <input id="enable1" name="enable" type="radio"
+	                   class="ace" value="0" />
+	            <span class="lbl">停用</span>
+	        </p>
+	        <p th:case="0">
+	            <input id="enable2" name="enable" type="radio"
+	                   class="ace" value="1" />
+	            <span class="lbl">启用</span>
+	            <input id="enable3" name="enable" type="radio"
+	                   class="ace" value="0" checked="checked" />
+	            <span class="lbl">停用</span>
+	        </p>
+   		</div> 
+   		<!-- case 以及 switch  end-->
+   		
+   		<!-- 下拉框 -->
+   		 <label for="sex1" class="control-label">班级:</label>
+         <select class="form-control" name="cid">
+             <option>请选择班级</option>
+             <option  th:each="c:${list}" th:value="${c}" th:text="${c }"   th:selected="${type==c}"></option>
+         </select>
+         
+         <!-- 引入图片 -->
+         <img class="img-responsive" alt="App Logo" th:src="@{/img/logo.png}" style="width:50px;height: 50px"/>
+
+		<!-- 删除元素  th:remove
+		　　1.all:删除包含标签和所有的孩子。
+		　　2.body:不包含标记删除,但删除其所有的孩子。
+		　　3.tag:包含标记的删除,但不删除它的孩子。		
+		　　4.all-but-first:删除所有包含标签的孩子,除了第一个。		
+		　　5.none:什么也不做。这个值是有用的动态评估。
+		-->
+		<a href="#" th:remove="${size==22}? tag : none">Link text not to be removed</a>
+  </body>
+
+</html>
