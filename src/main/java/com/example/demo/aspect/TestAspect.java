@@ -17,7 +17,7 @@ public class TestAspect {
 
 	@Pointcut("@annotation(com.example.demo.aspect.MyPoint)")
 	public void test() {
-		
+		System.out.println("demo1 提交");
 	}
 	@Before("test()")  
 	public void before(JoinPoint joinPoint) {
